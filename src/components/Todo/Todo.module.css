@@ -1,0 +1,62 @@
+.todo {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--gray-500);
+
+    display: flex;
+    align-items: flex-start;
+
+    justify-content: space-between;
+}
+
+.todo div {
+    display: flex;
+    align-items: flex-start;
+}
+
+.todo div label {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid var(--blue-300);
+}
+
+.todo div input[type='checkbox'] {
+    display: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.todo div input[type='checkbox']:checked ~ label {
+    background: var(--blue-500);
+    border: 0;
+}
+
+.todo div input[type='checkbox']:checked ~ p {
+    text-decoration: line-through;
+    color: var(--gray-300);
+}
+
+.todo div p {
+    margin-left: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.todo button {
+    background: transparent;
+    color: var(--gray-300);
+    margin-left: 0.75rem;
+    cursor: pointer;
+    
+    transition: color 0.2s;
+}
+
+.todo button:hover {
+ color: var(--red-500)   
+}

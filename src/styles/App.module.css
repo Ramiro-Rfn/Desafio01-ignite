@@ -70,3 +70,7 @@
     color: var(--purple-500);
 }
 
+.content .todoList {
+    list-style: none;
+    margin-top: 1.5rem;
+}
