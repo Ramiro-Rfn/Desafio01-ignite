@@ -124,7 +124,7 @@ function App() {
 
                 <p>
                   Concluidas
-                  <span>{totalChecked}</span>
+                  <span>{`${totalChecked} de ${todos.length}`}</span>
                 </p>
              </header>
 
