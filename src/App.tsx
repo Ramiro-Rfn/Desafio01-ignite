@@ -19,14 +19,12 @@ interface Todo {
 function App() {
 
   const [todoText, setTodoText] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([{
-    id: 1,
-    content: 'Almoçar a tempo hoje',
-    checked: true,
-  }])
+  const [todos, setTodos] = useState<Todo[]>([]);
 
+  const [totalChecked, setTotalChecked] = useState(0);
 
-  function handleInputChange(event) {
+  function handleInputChange(event: any) {
+    event.target.setCustomValidity('')
     setTodoText(event?.target.value)
   }
 
@@ -50,26 +48,48 @@ function App() {
   function checkTodo(todoToCheck: Todo) {
     const checkedTodo = todos.filter((todo)=>{
       if(todo.id === todoToCheck.id) {
-        console.log(todo.content)
         todo.checked = !todo.checked;
+
+        if(todo.checked) {
+          setTotalChecked((prev)=> prev + 1)
+        }else {
+          setTotalChecked((prev)=> prev - 1)
+        }
+
       }
 
       return todo;
     })
-    
+
     setTodos(checkedTodo);
   }
 
 
   function deleteTodo(todoToCheck: Todo) {
-    const checkedTodo = todos.filter((todo)=>{
+    const checkedTodos = todos.filter((todo)=>{
       if(todo.id !== todoToCheck.id) {
+        if(todoToCheck.checked) {
+          setTotalChecked((prev)=> prev - 1);
+        }
         return todo;
       }
     })
+
+    const totalcheckedCount = checkedTodos.filter((todo)=>{
+        if(todo.checked){
+          return todo;
+        }
+    })
+
+    setTotalChecked(totalcheckedCount.length);
     
-    setTodos(checkedTodo);
+    setTodos(checkedTodos);
   }
+
+  function handleInputInvalid(event: any) {
+    event.target.setCustomValidity('Esse campo é obrigatório!')
+  }
+
  
   return (
     <div className={styles.container}>
@@ -79,12 +99,17 @@ function App() {
           <form onSubmit={handleCreateTodo} className={styles.formContainer}>
             <input 
               type="text"
+              required
+              onInvalid={handleInputInvalid}
               value={todoText}
               onChange={handleInputChange}  
               placeholder='Adicione uma nova tarefa' 
             />
 
-            <button type="submit">
+            <button 
+              type="submit" 
+              disabled={todoText.length === 0}
+            >
               Criar
               <PlusCircle size={20} weight='regular'/>
             </button>
@@ -94,12 +119,12 @@ function App() {
              <header>
                 <p>
                   Tarefas Criadas
-                  <span>0</span>
+                  <span>{todos.length }</span>
                 </p>
 
                 <p>
                   Concluidas
-                  <span>0</span>
+                  <span>{totalChecked}</span>
                 </p>
              </header>
 
